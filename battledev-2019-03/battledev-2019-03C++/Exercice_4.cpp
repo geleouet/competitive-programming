@@ -22,6 +22,9 @@ void ContestExerciseImpl::main()
     
     // On commence par regarder les lettres du premier mots, pour vérifier si elles apparaissent dans les autres mots
     for(int l=0; l<10; l++) { // pour chaque lettre du premier mot 
+        vector<vector<int>> Prov[N]; // Pour noter provisoirement la position de la lettre dans les mots où elle apparaît
+        Prov[0].insert(Prov[0].end(), l); 
+    
         // on vérifie que la lettre apparaît dans tous les mots
         int n_mots = 1; // Pour retenir le nombre de mots dans lesquels la lettre étudiée apparaît
         for(int m=1; m<N; m++) { // Pour chaque autre mot
@@ -30,6 +33,7 @@ void ContestExerciseImpl::main()
             
             for(int j=0; j<10; j++) { // Pour chaque lettre de cet autre mot
                 if(Mots[l] == Mots[10*m+j]) { // si c'est la lettre que l'on étudie
+                    Prov[m].insert(Prov[m].end(), j);
                     app++; // on note qu'elle est apparue une fois de plus
                 }
             }
