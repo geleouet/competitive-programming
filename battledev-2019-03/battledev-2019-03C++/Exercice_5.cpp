@@ -53,14 +53,12 @@ void ContestExerciseImpl::main()
     { 
         // Tant que la pièce la plus à gauche (existe et) est plus proche que le multiplicateur le plus à gauche (qui existe ou non)
         while((cL >= 0)&&(((mL >= 0)&&(Coin[cL] > Mult[mL]))||(mL == -1))) { 
-            pos = Coin[cL]; // on se déplace vers la pièce
             sequence += 'o'; R++; // on la ramasse
             cL--; // la pièce la plus proche à gauche est alors la précédente (si elle existe)
         }
         
         // Tant que la pièce la plus à droite (existe et) est plus proche que le multiplicateur le plus à droite (qui existe ou non)
         while((cR < NC)&&(((mR < NM)&&(Coin[cR] < Mult[mR]))||(mR == NM))) {
-            pos = Coin[cR]; // on se déplace vers la pièce
             sequence += 'o'; R++; // on la ramasse
             cR++; // la pièce la plus proche à droite est alors la suivante (si elle existe)
         }
@@ -71,29 +69,25 @@ void ContestExerciseImpl::main()
             int nb_left = Mult[mL] - Coin[cL]; // Nombre de multiplicateurs devant la pièce la plus à gauche
             int nb_right = Coin[cR] - Mult[mR]; // Nombre de multiplicateurs devant la pièce la plus à droite
             
-            if(nb_left <= nb_right) { // Si il y a moins de multiplicateurs à gauche
-                pos = Mult[mL]; // on se déplace vers le multiplicateur
-                sequence += '*'; R++; // on le ramasse
+            if(nb_left < nb_right) { // Si il y a moins de multiplicateurs à gauche
+                sequence += '*'; R++; // on ramasse le premier multiplicateur à gauche
                 mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
             }
             else { // Si il y a moins de multiplicateurs à droite
-                pos = Mult[mR]; // on se déplace vers le multiplicateur
-                sequence += '*'; R++; // on le ramasse
+                sequence += '*'; R++; // on ramasse le premier multiplicateur à droite
                 mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
             }
         }
         
         // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
         if((cL == -1)&&(cR < NC)) {
-            pos = Mult[mR]; // on se déplace jusqu'à l'item le plus proche, qui est forcément un multiplicateur
-            sequence += '*'; R++; //et on le ramasse
+            sequence += '*'; R++; // on ramasse l'item le plus proche, qui est forcément un multiplicateur
             mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
         }
         
         // Si il n'y a plus de pièces à ramasser à droite mais qu'il y en a à gauche
         if((cR == NC)&&(cL >= 0)) {
-            pos = Mult[mL]; // on se déplace jusqu'à l'item le plus proche, qui est forcément un multiplicateur
-            sequence += '*'; R++; // et on le ramasse
+            sequence += '*'; R++; // on ramasse l'item le plus proche, qui est forcément un multiplicateur
             mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
         }
         
