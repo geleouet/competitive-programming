@@ -26,12 +26,15 @@ void ContestExerciseImpl::main()
         int n_mots = 1; // Pour retenir le nombre de mots dans lesquels la lettre étudiée apparaît
         for(int m=1; m<N; m++) { // Pour chaque autre mot
             int memory = n_mots; // on mémorise le nombre de mots dans lesquels la lettre apparaît jusqu'ici
-            for(int j=0; j<10; j++) { // puis pour chaque lettre de cet autre mot
+            int app = 0; // et on va compter le nombre de fois où elle apparaît dans ce mot
+            
+            for(int j=0; j<10; j++) { // Pour chaque lettre de cet autre mot
                 if(Mots[l] == Mots[10*m+j]) { // si c'est la lettre que l'on étudie
-                    n_mots++; // on note qu'elle apparaît bien dans ce mot
-                    break; // et il n'y a pas besoin de reagrder les autres lettres de cet autre mot
+                    app++; // on note qu'elle est apparue une fois de plus
                 }
             }
+            
+            n_mots += (app!=0); // On note si la lettre est apparue au moins une fois dans cet autre mot
             if(memory == n_mots) {break;} // Si la lettre n'apparaît pas dans cet autre mot, on n'a pas besoin de regarder dans les autres mots
         }
         if(n_mots == N) { // Si la lettre apparaît bien dans tous les mots
