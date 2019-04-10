@@ -94,8 +94,7 @@ void ContestExerciseImpl::main()
         // Si il n'y a plus de pièces à ramasser
         if((cL == -1)&&(cR == NC)) {
             int remaining = (mL+1) + (NM-mR); // Le nombre de multiplicateurs restants
-            for(int s=0; s<remaining; s++) {sequence += '*';} // on termine en les ramassant
-            R += remaining;
+            for(int s=0; s<remaining; s++) {sequence += '*';} R += remaining; // on termine en les ramassant
         }
     }
     
