@@ -25,7 +25,7 @@ void ContestExerciseImpl::main()
     
     char couloir[N]; // On commence par modéliser le couloir par une chaîne de caractères
     for(int k=0; k<N; k++) {
-        cin >> couloir[k]; // On vérifie quel est le symbole à la position [k,l]
+        cin >> couloir[k]; // On vérifie quel est le symbole à la position k
         if(couloir[k] == 'o') {Coin.insert(Coin.end(), k);} // si c'est une pièce on enregistre sa position
         if(couloir[k] == '*') {Mult.insert(Mult.end(), k);} // si c'est un multiplicateur on enregistre sa position
         if(couloir[k] == 'X') {pos = k;} // si c'est la croix il s'agit de la position du joueur
@@ -47,7 +47,7 @@ void ContestExerciseImpl::main()
     }
     
     int R = 0; // Nombre d'item ramassés
-    string sequence; // La séquence de déplacements et actions que l'on aura en sortie
+    string sequence; // La séquence d'item ramassés
     
     while(R<N-1) // Tant qu'on a pas ramassé tous les items
     { 
@@ -75,29 +75,29 @@ void ContestExerciseImpl::main()
             }
             if(nb_left > nb_right) { // Si il y a moins de multiplicateurs à droite
                 sequence += '*'; R++; // on ramasse le premier multiplicateur à droite
-                mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
+                mR++; // le multiplicateur le plus proche à droite est alors le suivant (si il existe)
             }
             if(nb_left == nb_right) { // Si il y autant de multiplicateurs à gauche et à droite
                 int coin_left = 1; int coin_right = 1; // Pour compter le nombre de pièces directement à gauche et à droite des multiplicateurs
-                int ind_left = cL; int ind_right = cR;
-                while((ind_left >= 1)&&(Coin[ind_left-1] == Coin[ind_left]-1)) {coin_left++;} // Tant que l'item à gauche d'une pièce est une pièce, on compte
-                while((ind_right <= NC-2)&&(Coin[ind_right-1] == Coin[ind_right]-1)) {coin_right++;} // Tant que l'item à droite d'une pièce est une pièce, on compte
-                // Et maintenant on ramasse le premier multiplicateur du coté où il y a le plus de pièces, mais dans tous les cas on ramasse un multiplicateur
-                sequence += '*';
-                if(coin_left <= coin_right) {mR++;}
-                else {mL--;}
+                int ind_left = cL; int ind_right = cR; // Pour vérifier que les indices se suivent, et que donc des pièces sont côte à côte
+                while((ind_left >= 1)&&(Coin[ind_left-1] == Coin[ind_left]-1)) {coin_left++; ind_left = ind_left--;} // Tant que l'item à gauche d'une pièce est une pièce, on compte
+                while((ind_right <= NC-2)&&(Coin[ind_right+1] == Coin[ind_right]+1)) {coin_right++; ind_right++;} // Tant que l'item à droite d'une pièce est une pièce, on compte
+                // Et maintenant on ramasse le premier multiplicateur du coté où il y a le plus de pièces 
+                sequence += '*'; R++; // dans tous les cas on ramasse un multiplicateur
+                if(coin_left <= coin_right) {mR++;} // si c'est à droite, le multiplicateur le plus proche à droite est alors le suivant (si il existe)
+                else {mL--;} // si c'est à gauche, le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
             }
         }
         
         // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
         if((cL == -1)&&(cR < NC)) {
-            sequence += '*'; R++; // on ramasse l'item le plus proche, qui est forcément un multiplicateur
+            sequence += '*'; R++; // on ramasse l'item le plus proche à droite, qui est forcément un multiplicateur
             mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
         }
         
         // Si il n'y a plus de pièces à ramasser à droite mais qu'il y en a à gauche
         if((cR == NC)&&(cL >= 0)) {
-            sequence += '*'; R++; // on ramasse l'item le plus proche, qui est forcément un multiplicateur
+            sequence += '*'; R++; // on ramasse l'item le plus proche à gauche, qui est forcément un multiplicateur
             mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
         }
         
