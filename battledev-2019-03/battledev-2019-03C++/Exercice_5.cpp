@@ -85,14 +85,14 @@ void ContestExerciseImpl::main()
         
         // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
         if((cL == -1)&&(cR < NC)) {
-            pos = Mult[mR]; // on se déplace jusqu'à l'item le plus proche
+            pos = Mult[mR]; // on se déplace jusqu'à l'item le plus proche, qui est forcément un multiplicateur
             sequence += '*'; R++; //et on le ramasse
             mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
         }
         
         // Si il n'y a plus de pièces à ramasser à droite mais qu'il y en a à gauche
         if((cR == NC)&&(cL >= 0)) {
-            pos = Mult[mL]; // on se déplace jusqu'à l'item le plus proche 
+            pos = Mult[mL]; // on se déplace jusqu'à l'item le plus proche, qui est forcément un multiplicateur
             sequence += '*'; R++; // et on le ramasse
             mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
         }
