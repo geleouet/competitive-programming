@@ -73,9 +73,19 @@ void ContestExerciseImpl::main()
                 sequence += '*'; R++; // on ramasse le premier multiplicateur à gauche
                 mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
             }
-            else { // Si il y a moins de multiplicateurs à droite
+            if(nb_left > nb_right) { // Si il y a moins de multiplicateurs à droite
                 sequence += '*'; R++; // on ramasse le premier multiplicateur à droite
                 mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
+            }
+            if(nb_left == nb_right) { // Si il y autant de multiplicateurs à gauche et à droite
+                int coin_left = 1; int coin_right = 1; // Pour compter le nombre de pièces directement à gauche et à droite des multiplicateurs
+                int ind_left = cL; int ind_right = cR;
+                while((ind_left >= 1)&&(Coin[ind_left-1] == Coin[ind_left]-1)) {coin_left++;} // Tant que l'item à gauche d'une pièce est une pièce, on compte
+                while((ind_right <= NC-2)&&(Coin[ind_right-1] == Coin[ind_right]-1)) {coin_right++;} // Tant que l'item à droite d'une pièce est une pièce, on compte
+                // Et maintenant on ramasse le premier multiplicateur du coté où il y a le plus de pièces, mais dans tous les cas on ramasse un multiplicateur
+                sequence += '*';
+                if(coin_left <= coin_right) {mR++;}
+                else {mL--;}
             }
         }
         
