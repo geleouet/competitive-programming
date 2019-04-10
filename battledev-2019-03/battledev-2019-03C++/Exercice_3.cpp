@@ -41,7 +41,7 @@ void ContestExerciseImpl::main()
     while(c<NC) // Tant qu'on a pas ramassé toutes les pièces
     { 
         int c_i = Coin_i[c]; int c_j = Coin_j[c]; // on note la position de la pièce n°c
-        int diff_i = c_i - i; int diff_j = c_j - j; // on vérifie le chemin à parcoourir (on aura toujours diff_i positif ou nul)
+        int diff_i = c_i - i; int diff_j = c_j - j; // on vérifie le chemin à parcourir (on aura toujours diff_i positif ou nul)
         
         if(diff_i > 0) { // si il y a un déplacement vertical à faire
             for(int k=0; k<diff_i; k++ ) {sequence += 'v';} // on descend diff_i lignes
@@ -67,7 +67,7 @@ void ContestExerciseImpl::main()
     while(m>=0) // Tant qu'on a pas ramassé tous les multiplicateurs
     { 
         int m_i = Mult_i[m]; int m_j = Mult_j[m]; // on note la position du multiplicateur n°s
-        int delta_i = i - m_i; int delta_j = j - m_j; // on vérifie le chemin à parcoourir (on aura toujours delta_i positif ou nul, sauf pour ramasser le premier multiplicateur)
+        int delta_i = i - m_i; int delta_j = j - m_j; // on vérifie le chemin à parcourir (on aura toujours delta_i positif ou nul, sauf pour ramasser le premier multiplicateur)
         
         if(delta_i > 0) { // si il y a un déplacement vertical à faire
             for(int k=0; k<delta_i; k++ ) {sequence += '^';} // on monte delta_i lignes
