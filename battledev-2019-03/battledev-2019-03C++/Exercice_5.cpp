@@ -35,8 +35,8 @@ void ContestExerciseImpl::main()
     int NC = Coin.size(); // Le nombre de pièces
     int NM = Mult.size(); // Le nombre de multiplicateurs
     
-    int cL = -1; int cR = NC// Pour connaître les indices des position des pièces les plus proches à droite et à gauche dans le vecteur Coin
-    int mL = -1; int mR = NM // Pour connaître les indices des position des multiplicateurs les plus proches à droite et à gauche dans le vecteur Mult
+    int cL = -1; int cR = NC; // Pour connaître les indices des position des pièces les plus proches à droite et à gauche dans le vecteur Coin
+    int mL = -1; int mR = NM;  // Pour connaître les indices des position des multiplicateurs les plus proches à droite et à gauche dans le vecteur Mult
     
     for(int c=0; c<NC; c++) {
         if((Coin[c] < pos)&&(c > cL)) {cL = c;}
@@ -78,10 +78,36 @@ void ContestExerciseImpl::main()
                 for(int s=0; s<delta; s++) {sequence += '<';} // on se déplace vers le multiplicateur
                 pos = Mult[mL];
                 sequence += 'x'; R++; // on le ramasse
-                mL--; // la pièce la plus proche à droite est alors la suivante (si elle existe)
+                mL--; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
+            }
+            else { // Si il y a moins de multiplicateurs à droite
+                int delta = Mult[mR] - pos; // on calcule la distance à parcourir
+                for(int s=0; s<delta; s++) {sequence += '>';} // on se déplace vers le multiplicateur
+                pos = Mult[mR];
+                sequence += 'x'; R++; // on le ramasse
+                mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
+            }
+        }
+        
+        // Si il n'y a plus de pièces à ramasser
+        if((cL = -1)&&(cR = N)) {
+            while(mL >= 0) { //Tant qu'il rest des multiplicateurs à ramasser à gauche
+                int delta = pos - Mult[mL]; // on calcule la distance à parcourir
+                for(int s=0; s<delta; s++) {sequence += '<';} // on se déplace vers le multiplicateur
+                pos = Mult[mL];
+                sequence += 'x'; R++; // on le ramasse
+                mL--; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
+            }
+            while(mR < NM) { //Tant qu'il rest des multiplicateurs à ramasser à droite
+                int delta = Mult[mR] - pos; // on calcule la distance à parcourir
+                for(int s=0; s<delta; s++) {sequence += '>';} // on se déplace vers le multiplicateur
+                pos = Mult[mR];
+                sequence += 'x'; R++; // on le ramasse
+                mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)  
             }
         }
     }
     
     cout << sequence;
 }
+   
