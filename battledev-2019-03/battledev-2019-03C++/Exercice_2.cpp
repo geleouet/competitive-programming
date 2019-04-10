@@ -21,11 +21,9 @@ void ContestExerciseImpl::main()
             ARs++; // on fait un aller-retour avec le monte-charge
             poids = p; // et quand le monte-charge revient on met le carton dessus
         }
-        
-        if(n == N) {ARs++;} // Quand on est au dernier carton, dans tous les cas on fait un aller-retour
-        
         n++; // Puis on s'occupe du carton suivant
     }
+    ARs++; // Pour finir il faut tenir compte du dernier-aller retour, celui avec le dernier carton (n=N)
 
-    cout << ARs; // Et on a le nombre total d'allers-retours
+    cout << ARs;
 }
