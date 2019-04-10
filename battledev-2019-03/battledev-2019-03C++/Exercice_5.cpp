@@ -80,7 +80,7 @@ void ContestExerciseImpl::main()
             if(nb_left == nb_right) { // Si il y autant de multiplicateurs à gauche et à droite
                 int coin_left = 1; int coin_right = 1; // Pour compter le nombre de pièces directement à gauche et à droite des multiplicateurs
                 int ind_left = cL; int ind_right = cR; // Pour vérifier que les indices se suivent, et que donc des pièces sont côte à côte
-                while((ind_left >= 1)&&(Coin[ind_left-1] == Coin[ind_left]-1)) {coin_left++; ind_left = ind_left--;} // Tant que l'item à gauche d'une pièce est une pièce, on compte
+                while((ind_left >= 1)&&(Coin[ind_left-1] == Coin[ind_left]-1)) {coin_left++; ind_left--;} // Tant que l'item à gauche d'une pièce est une pièce, on compte
                 while((ind_right <= NC-2)&&(Coin[ind_right+1] == Coin[ind_right]+1)) {coin_right++; ind_right++;} // Tant que l'item à droite d'une pièce est une pièce, on compte
                 // Et maintenant on ramasse le premier multiplicateur du coté où il y a le plus de pièces 
                 sequence += '*'; R++; // dans tous les cas on ramasse un multiplicateur
