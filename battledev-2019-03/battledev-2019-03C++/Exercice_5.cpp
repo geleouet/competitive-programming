@@ -51,14 +51,14 @@ void ContestExerciseImpl::main()
     
     while(R<N-1) // Tant qu'on a pas ramassé tous les items
     { 
-        // Tant que la pièce la plus à gauche (existe et) est plus proche que le multiplicateur le plus à gauche
+        // Tant que la pièce la plus à gauche (existe et) est plus proche que le multiplicateur le plus à gauche (qui existe ou non)
         while((cL >= 0)&&(((mL >= 0)&&(Coin[cL] > Mult[mL]))||(mL == -1))) { 
             pos = Coin[cL]; // on se déplace vers la pièce
             sequence += 'o'; R++; // on la ramasse
             cL--; // la pièce la plus proche à gauche est alors la précédente (si elle existe)
         }
         
-        // Tant que la pièce la plus à droite (existe et) est plus proche que le multiplicateur le plus à droite
+        // Tant que la pièce la plus à droite (existe et) est plus proche que le multiplicateur le plus à droite (qui existe ou non)
         while((cR < NC)&&(((mR < NM)&&(Coin[cR] < Mult[mR]))||(mR == NM))) {
             pos = Coin[cR]; // on se déplace vers la pièce
             sequence += 'o'; R++; // on la ramasse
