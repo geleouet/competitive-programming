@@ -15,6 +15,23 @@ using namespace std;
 
 ContestExerciseImpl::ContestExerciseImpl() : Exercise() {}
 
+int compter(int L, int R, vector<int> Pos) 
+{
+    int nb_L = 1; int nb_R = 1; // Les outputs
+    int S = Pos.size(); // Le nombre d'éléments dans le vecteur
+    
+    // Cas particuliers
+    if(L==-1) {nb_L = 0;}
+    if(R==S) {nb_R = 0;}
+    
+    int ind_L = L; int ind_R = R;
+    
+    while((ind_L >= 1)&&(Pos[ind_L-1] == Pos[ind_L]-1)) {nb_L++; ind_L--;}
+    while((ind_R <= S-2)&&(Pos[ind_R+1] == Pos[ind_R]+1)) {nb_R++; ind_R++;}
+    
+    return nb_L, nb_R;
+}
+
 void ContestExerciseImpl::main() 
 {
     int N; cin >> N; // On récupère la taille du couloir
@@ -66,27 +83,44 @@ void ContestExerciseImpl::main()
         // Tant que pièces et multiplicateurs existent à droite et à gauche, les multiplicateurs étant plus proches
         while((cL >= 0)&&(mL >= 0)&&(Coin[cL] < Mult[mL])&&(cR < NC)&&(mR < NM)&&(Coin[cR] > Mult[mR])) 
         { 
-            int nb_left = Mult[mL] - Coin[cL]; // Nombre de multiplicateurs devant la pièce la plus à gauche
-            int nb_right = Coin[cR] - Mult[mR]; // Nombre de multiplicateurs devant la pièce la plus à droite
+            // Initialisation du calcul
+            int left = 0; int right = 0;
+            int indM_left = mL; int indM_right = mR;
+            int indC_left = cL; int indC_right = cR;
+            vector<int> Positions = Mult;
             
-            if(nb_left < nb_right) { // Si il y a moins de multiplicateurs à gauche
+            while(left == right) {
+                if(Positions == Mult) {
+                    left, right = compter(indM_left, indM_right, Positions);
+                    indM_left -= left; indM_right += right;
+                    Positions = Coin;
+                }
+                if(Positions == Coin) {
+                    left, right = compter(indC_left, indC_right, Positions);
+                    indC_left -= left; indC_right += right;
+                    Positions = Mult;
+                }
+            }
+            
+            if(left < right) { // Si il y a moins de multiplicateurs à gauche
                 sequence += '*'; R++; // on ramasse le premier multiplicateur à gauche
                 mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
             }
-            if(nb_left > nb_right) { // Si il y a moins de multiplicateurs à droite
+            if(left > right) { // Si il y a moins de multiplicateurs à droite
                 sequence += '*'; R++; // on ramasse le premier multiplicateur à droite
                 mR++; // le multiplicateur le plus proche à droite est alors le suivant (si il existe)
             }
-            if(nb_left == nb_right) { // Si il y autant de multiplicateurs à gauche et à droite
-                int coin_left = 1; int coin_right = 1; // Pour compter le nombre de pièces directement à gauche et à droite des multiplicateurs
-                int ind_left = cL; int ind_right = cR; // Pour vérifier que les indices se suivent, et que donc des pièces sont côte à côte
-                while((ind_left >= 1)&&(Coin[ind_left-1] == Coin[ind_left]-1)) {coin_left++; ind_left--;} // Tant que l'item à gauche d'une pièce est une pièce, on compte
-                while((ind_right <= NC-2)&&(Coin[ind_right+1] == Coin[ind_right]+1)) {coin_right++; ind_right++;} // Tant que l'item à droite d'une pièce est une pièce, on compte
+            /*if(nb_left == nb_right) { 
+                int coin_left; int coin_right; 
+                coin_left, coin_right = compter(cL, cR, Coin);
+                
                 // Et maintenant on ramasse le premier multiplicateur du coté où il y a le plus de pièces 
                 sequence += '*'; R++; // dans tous les cas on ramasse un multiplicateur
-                if(coin_left <= coin_right) {mR++;} // si c'est à droite, le multiplicateur le plus proche à droite est alors le suivant (si il existe)
-                else {mL--;} // si c'est à gauche, le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
-            }
+                if(coin_left < coin_right) {mR++;} // si c'est à droite, le multiplicateur le plus proche à droite est alors le suivant (si il existe)
+                if(coin_left > coin_right) {mL--;} // si c'est à gauche, le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
+                if(coin_left == coin_right) {
+                    int mult_left; int mult_right;
+            }*/
         }
         
         // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
@@ -110,4 +144,14 @@ void ContestExerciseImpl::main()
     
     cout << sequence;
 }
+
+
+
+
+
+
+
+
+
+
    
