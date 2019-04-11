@@ -22,12 +22,13 @@ int bin(int a, int b){
 }
 
 // FONCTION GENERATION DE COMBINAISONS D'ENTIERS DE TAILLE k
-vector<vector<int>> generer(int min, int max, int k) {
+vector<vector<int>> generer(int min, int max, int k) 
+{
     int nb = max - min + 1; // Le nombre d'entiers
-    if(k > nb) {return "NULL";} // On ne travaille pas si k est trop grand
-    else {
+    //if(k > nb) {return [];} // On ne travaille pas si k est trop grand
+    //else {
         int size = bin(k, nb); // Le nombre de combinaisons possibles entre min et max
-        vector<vector<int>> comb[size];
+        vector<vector<int>> comb(size);
         
         for(int i=min; i<= max-k+1; i++) {
             int s = bin(k-1, max-i); // Le nombre de combinaisons de taille k commençant par i
@@ -42,7 +43,7 @@ vector<vector<int>> generer(int min, int max, int k) {
                 vector<int> extension[k-1] = generer(i+1, max, k-1)[t];
                 for(int m=0; m<k-1; m++) {comb[n_comb+t].insert(comb[n_comb+t].end(), extension[m]);}
             }
-        }
+    //    }
         return comb;
     }
 }
@@ -54,13 +55,13 @@ vector<vector<int>> generer_all(int min, int max) {
     // Calcul du nombre total de combinaisons
     int size = 0; 
     for(int k=1; k<=nb; k++) {size += bin(k, nb);}
-    vector<vector<int>> all_comb[size];
+    vector<vector<int>> all_comb(size);
     
     // Récupérer les combinaisons pour les insérer dans le vecteur all_comb
     int n_comb = 0;
     for(int k=1; k<=nb; k++) { // Pour chaque longueur de combinaison possible
         int sk = bin(k, nb); // On récupère le nombre de combinaisons de cette taile
-        for(int i=0; i<bin(k, nb)) {all_comb[n_comb+i] = generer(min, max, k)[i];} // On récupère toutes les combinaisons
+        for(int i=0; i<bin(k, nb); i++) {all_comb[n_comb+i] = generer(min, max, k)[i];} // On récupère toutes les combinaisons
         n_comb += bin(k, nb); // On a rajouté bin(k, nb) combinaisons dans le vecteur all_comb
     }
     return all_comb;
@@ -70,7 +71,7 @@ void ContestExerciseImpl::main()
 {
     int N; cin >> N; // Le nombre de mots
     vector<vector<int>> Comb = generer_all(0, 9); // Les combinaisons croissantes des lettres (indexées par leur position)
-    vector<vector<string>> Var[N];
+    vector<vector<string>> Var(N);
     
     for(int n=0; n<N; n++) { // Pour chaque mot
         char mot[10]; for(int k=0; k<10; k++) {cin >> mot[k];} // on crée uune chaîne de caractères comprenant les lettres du mot
@@ -85,17 +86,20 @@ void ContestExerciseImpl::main()
     
     // RECHERCHE DU PLUS LONG MOT QUI APPARAIT DANS TOUS LES VECTEURS DE string
     int m=1022 // On commence en regardant le mot le plus long dans le premier vecteur, puis on regarde des mots de plus en plus courts
+    string mot;
     int owned = 1; // Le nombre de vecteurs dans lequels le mot n°m du premier vecteur apparaît (il apparaît au moins une fois)
-    while(owned != N) {
-        string mot = Var[0][m]; // On enregistre le mot n°m du premier vecteur
+    
+    while(owned != N) // Tant que le mot étudié n'apparît pas dans tous les vecteurs
+    {
+        mot = Var[0][m]; // On enregistre le mot n°m du premier vecteur
         for(int n=1; n<N; n++) { // Pour chaque vecteur autre que le premier vecteur
-            int memory = owned; // On retient le nombre de vecteurs dans lequel  
-            for(int i=1022; i<=0; i--) { // On va regarder les mots qu'il possède dans l'ordre inverse
+            int memory = owned; // On retient le nombre de vecteurs dans lequel le mot est apparu jusqu'à présent
+            for(int i=1022; i<=0; i--) { // On va regarder les mots que le vecteur n°n possède dans l'ordre inverse
                 string mot2 = Var[n][i]; // On enregistre son mot n°i
                 if(mot == mot2) {owned++; break;} // S'il est égal au mot qu'on étudie, on le note et on peut passer au vecteur suivant
             }
             if(memory == owned) { // Si le mot n'apparaît pas dans le vecteur n°n
-                m--; // On passe à un autre mot dans le premier 
+                m--; // On passe à un autre mot dans le premier vecteur
                 owned = 1; // et owned reprend la valeur 1;
             }
         }
