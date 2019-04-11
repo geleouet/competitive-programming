@@ -64,66 +64,59 @@ void ContestExerciseImpl::main()
     }
     
     int R = 0; // Nombre d'item ramassés
+    int score = 0; 
     string sequence; // La séquence d'item ramassés
     
     while(R<N-1) // Tant qu'on a pas ramassé tous les items
     { 
         // Tant que la pièce la plus à gauche (existe et) est plus proche que le multiplicateur le plus à gauche (qui existe ou non)
         while((cL >= 0)&&(((mL >= 0)&&(Coin[cL] > Mult[mL]))||(mL == -1))) { 
-            sequence += 'o'; R++; // on la ramasse
+            sequence += 'o'; R++; score++; // on la ramasse
             cL--; // la pièce la plus proche à gauche est alors la précédente (si elle existe)
         }
         
         // Tant que la pièce la plus à droite (existe et) est plus proche que le multiplicateur le plus à droite (qui existe ou non)
         while((cR < NC)&&(((mR < NM)&&(Coin[cR] < Mult[mR]))||(mR == NM))) {
-            sequence += 'o'; R++; // on la ramasse
+            sequence += 'o'; R++; score++; // on la ramasse
             cR++; // la pièce la plus proche à droite est alors la suivante (si elle existe)
         }
         
         // Tant que pièces et multiplicateurs existent à droite et à gauche, les multiplicateurs étant plus proches
         while((cL >= 0)&&(mL >= 0)&&(Coin[cL] < Mult[mL])&&(cR < NC)&&(mR < NM)&&(Coin[cR] > Mult[mR])) 
         { 
-            sequence += '*'; R++; // Dans tous les cas on ramasse un multiplicateur
+            sequence += '*'; R++; score *= 2; // Dans tous les cas on ramasse un multiplicateur
             
             // Ramasse-t-on à droite ou à gauche?
-            int left = 0; int right = 0; // Pour connaître le nombre d'items identiques à droite et à gauche
+            int left_mult = 0; int right_mult = 0; // Pour connaître le nombre de multiplicateurs à droite et à gauche
+            int left_coin = 0; int right_coin = 0; // Pour connaître le nombre de pièces à droite et à gauche
             int indM_left = mL; int indM_right = mR; // Pour compter les multiplicateurs
             int indC_left = cL; int indC_right = cR; // Pour compter les pièces
-            vector<int> Item = Mult; // On commence par compter des multiplicateurs
+            int res_left; int res_right;
             
             // Tant que le nombre d'items identiques consécutifs comptés à droite et à gauche est le même
-            while(left == right) { 
-                if(Item == Mult) { // si on compte les multiplicateurs
-                    left, right = compter(indM_left, indM_right, Item); // On utilise la fonction "compter" définie plus haut
-                    indM_left -= left; indM_right += right; // Si on a besoin de recompter des multipplicateurs dans une nouvelle itération, on va s'intéresser à ceux plus aux bords
-                    Item = Coin; // On précise que si il continuer à compter, nous compterons des pièces
-                }
-                if(Item == Coin) { // si on compte les pièces
-                    left, right = compter(indC_left, indC_right, Item); // On utilise la fonction "compter" définie plus haut
-                    indC_left -= left; indC_right += right; // Si on a besoin de recompter des pièces dans une nouvelle itération, on va s'intéresser à celles plus aux bords
-                    Item = Mult; // On précise que si il continuer à compter, nous compterons des multiplicateurs
-                }
+            while((left_mult == right_mult)&&(left_coin == right_coin)) 
+            { 
+                // On utilise la fonction "compter" définie plus haut
+                left_mult, right_mult = compter(indM_left, indM_right, Mult); 
+                left_coin, right_coin = compter(indM_left, indM_right, Coin); 
+                indM_left -= left_mult; indM_right += right_mult; // Si on a besoin de recompter des multipplicateurs dans une nouvelle itération, on va s'intéresser à ceux plus aux bords
+                indC_left -= left_coin; indC_right += right_coin; // Si on a besoin de recompter des pièces dans une nouvelle itération, on va s'intéresser à celles plus aux bords
+                res_left = (score * pow(2, left_mult) + left_coin) * pow(2, right_mult); res_right = (score  * pow(2, right_mult) + right_coin) * pow(2, left_mult); 
             }
             
-            if(left <= right) { // Si il y a moins d'item (comptés) à gauche
-                if(Item == Mult) {mL--;} // et que ces items sont des multiplicateurs, on ramasse le multiplicateur le plus proche à gauche
-                if(Item == Coin) {mR++;} // et que ces items sont des pièces, on ramasse le multiplicateur le plus proche à droite
-            }
-            if(left > right) { // Si il y a moins d'item (comptés) à droite
-                if(Item == Mult) {mR++;} // et que ces items sont des multiplicateurs, on ramasse le multiplicateur le plus proche à droite
-                if(Item == Coin) {mL--;} // et que ces items sont des pièces, on ramasse le multiplicateur le plus proche à gauche
-            }
+            if(res_left >= res_right) {mL--;}
+            else {mR++;}
         }
         
         // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
         if((cL == -1)&&(cR < NC)) {
-            sequence += '*'; R++; // on ramasse l'item le plus proche à droite, qui est forcément un multiplicateur
+            sequence += '*'; R++; score *= 2; // on ramasse l'item le plus proche à droite, qui est forcément un multiplicateur
             mR++; // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
         }
         
         // Si il n'y a plus de pièces à ramasser à droite mais qu'il y en a à gauche
         if((cR == NC)&&(cL >= 0)) {
-            sequence += '*'; R++; // on ramasse l'item le plus proche à gauche, qui est forcément un multiplicateur
+            sequence += '*'; R++; score *= 2; // on ramasse l'item le plus proche à gauche, qui est forcément un multiplicateur
             mL--; // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
         }
         
