@@ -25,26 +25,24 @@ int bin(int a, int b){
 vector<vector<int>> generer(int min, int max, int k) 
 {
     int nb = max - min + 1; // Le nombre d'entiers
-    //if(k > nb) {return [];} // On ne travaille pas si k est trop grand
-    //else {
-        int size = bin(k, nb); // Le nombre de combinaisons possibles entre min et max
-        vector<vector<int>> comb(size);
+    int size = bin(k, nb); // Le nombre de combinaisons possibles entre min et max
+    vector<vector<int>> comb(size); // on les enregistrera dans ce vecteur
+    
+    for(int i=min; i<= max-k+1; i++) {
+        int s = bin(k-1, max-i); // Le nombre de combinaisons de taille k commençant par i
         
-        for(int i=min; i<= max-k+1; i++) {
-            int s = bin(k-1, max-i); // Le nombre de combinaisons de taille k commençant par i
-            
-            // Le nombre de combinaisons avant de s'intéresser à celles commençant par i
-            int n_comb = 0; 
-            for(int j=min; j<i; j++) {n_comb += bin(k-1, max-j);}
-            
-            // On va utiliser la récursivité
-            for(int t=0; t<s; t++) {
-                comb[n_comb+t][0] = i;
-                vector<int> extension[k-1] = generer(i+1, max, k-1)[t];
-                for(int m=0; m<k-1; m++) {comb[n_comb+t].insert(comb[n_comb+t].end(), extension[m]);}
-            }
-    //    }
-        return comb;
+        // Le nombre de combinaisons avant de s'intéresser à celles commençant par i
+        int n_comb = 0; 
+        for(int j=min; j<i; j++) {n_comb += bin(k-1, max-j);}
+        
+        // On va utiliser la récursivité
+        for(int t=0; t<s; t++) {
+            comb[n_comb+t][0] = i;
+            vector<int> extension[k-1] = generer(i+1, max, k-1)[t];
+            comb[n_comb+t].push_back(extension);
+            //for(int m=0; m<k-1; m++) {comb[n_comb+t].insert(comb[n_comb+t].end(), extension[m]);}
+        }
+    return comb;
     }
 }
 
@@ -100,7 +98,7 @@ void ContestExerciseImpl::main()
             }
             if(memory == owned) { // Si le mot n'apparaît pas dans le vecteur n°n
                 m--; // On passe à un autre mot dans le premier vecteur
-                owned = 1; // et owned reprend la valeur 1;
+                owned = 1; // et owned reprend la valeur 1
             }
         }
     }
