@@ -3,9 +3,15 @@
 #include <sstream>
 #include "exercise.hpp"
 
+#include <fstream>
+
 using namespace std;
+
 #include<string>
 #include <vector>
+
+#include <stdio.h>
+#include <math.h> 
 
 ContestExerciseImpl::ContestExerciseImpl() : Exercise() {}
 
@@ -22,11 +28,11 @@ int bin(int a, int b){
 }
 
 // FONCTION GENERATION DE COMBINAISONS D'ENTIERS DE TAILLE k
-vector<vector<int>> generer(int min, int max, int k) 
+vector< vector<int> > generer(int min, int max, int k) 
 {
     int nb = max - min + 1; // Le nombre d'entiers
     int size = bin(k, nb); // Le nombre de combinaisons possibles entre min et max
-    vector<vector<int>> comb(size); // on les enregistrera dans ce vecteur
+    vector< vector<int> > comb(size); // on les enregistrera dans ce vecteur
     
     for(int i=min; i<= max-k+1; i++) {
         int s = bin(k-1, max-i); // Le nombre de combinaisons de taille k commençant par i
@@ -47,13 +53,13 @@ vector<vector<int>> generer(int min, int max, int k)
 }
 
 /// FONCTION GENERATION DE TOUTES LES COMBINAISONS
-vector<vector<int>> generer_all(int min, int max) {
+vector< vector<int> > generer_all(int min, int max) {
     int nb = max - min +1; // Le nombre d'entiers
     
     // Calcul du nombre total de combinaisons
     int size = 0; 
     for(int k=1; k<=nb; k++) {size += bin(k, nb);}
-    vector<vector<int>> all_comb(size);
+    vector< vector<int> > all_comb(size);
     
     // Récupérer les combinaisons pour les insérer dans le vecteur all_comb
     int n_comb = 0;
@@ -68,8 +74,8 @@ vector<vector<int>> generer_all(int min, int max) {
 void ContestExerciseImpl::main() 
 {
     int N; cin >> N; // Le nombre de mots
-    vector<vector<int>> Comb = generer_all(0, 9); // Les combinaisons croissantes des lettres (indexées par leur position)
-    vector<vector<string>> Var(N);
+    vector< vector<int> > Comb = generer_all(0, 9); // Les combinaisons croissantes des lettres (indexées par leur position)
+    vector< vector<string> > Var(N);
     
     for(int n=0; n<N; n++) { // Pour chaque mot
         char mot[10]; for(int k=0; k<10; k++) {cin >> mot[k];} // on crée uune chaîne de caractères comprenant les lettres du mot
@@ -83,7 +89,7 @@ void ContestExerciseImpl::main()
     }
     
     // RECHERCHE DU PLUS LONG MOT QUI APPARAIT DANS TOUS LES VECTEURS DE string
-    int m=1022 // On commence en regardant le mot le plus long dans le premier vecteur, puis on regarde des mots de plus en plus courts
+    int m=1022; // On commence en regardant le mot le plus long dans le premier vecteur, puis on regarde des mots de plus en plus courts
     string mot;
     int owned = 1; // Le nombre de vecteurs dans lequels le mot n°m du premier vecteur apparaît (il apparaît au moins une fois)
     
