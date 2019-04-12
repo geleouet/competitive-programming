@@ -15,7 +15,7 @@ using namespace std;
 
 ContestExerciseImpl::ContestExerciseImpl() : Exercise() {}
 
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // FONCTION COMPTER : PERMET DE COMPTER LE NOMBRE D'OBJET IDENTIQUES COTE A COTE A DROITE ET A GAUCHE
 int compter(int L, int R, vector<int> Obj) 
@@ -78,12 +78,14 @@ void ContestExerciseImpl::main()
     
     //.......................................................................................................................................................
     
-    int R = 0;                                                                  // Nombre d'item ramassés
-    int score = 0;                                                              // Score obtenu après le ramassage d'items
-    string sequence;                                                            // La séquence d'item ramassés
+    int R = 0;          // Nombre d'item ramassés
+    int score = 0;      // Score obtenu après le ramassage d'items
+    string sequence;    // La séquence d'item ramassés
     
-    while(R<N-1)                                                                // Tant qu'on a pas ramassé tous les items
+    while(R<N-1)        // Tant qu'on a pas ramassé tous les items
     { 
+        // CAS SIMPLES ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        
         while((cL >= 0)&&(((mL >= 0)&&(Coin[cL] > Mult[mL]))||(mL == -1))) {    // Tant que la pièce la plus à gauche (existe et) est plus proche que le multiplicateur le plus à gauche
             sequence += 'o'; R++; score++;                                      // on la ramasse
             cL--;                                                               // la pièce la plus proche à gauche est alors la précédente (si elle existe)
@@ -93,6 +95,8 @@ void ContestExerciseImpl::main()
             sequence += 'o'; R++; score++;                                      // on la ramasse
             cR++;                                                               // la pièce la plus proche à droite est alors la suivante (si elle existe)
         }
+        
+        // CAS COMPLIQUES ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         
         // Tant que pièces et multiplicateurs existent à droite et à gauche, les multiplicateurs étant plus proches
         while((cL >= 0)&&(mL >= 0)&&(Coin[cL] < Mult[mL])&&(cR < NC)&&(mR < NM)&&(Coin[cR] > Mult[mR])) 
@@ -121,19 +125,22 @@ void ContestExerciseImpl::main()
             else {mR++;}
         }
         
-        if((cL == -1)&&(cR < NC)) {                                             // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
-            sequence += '*'; R++; score *= 2;                                   // on ramasse l'item le plus proche à droite, qui est forcément un multiplicateur
-            mR++;                                                               // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
+        // CAS SIMPLES (FIN DU RAMASSAGE) ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        
+        if((cL == -1)&&(cR < NC)) {                                     // Si il n'y a plus de pièces à ramasser à gauche mais qu'il y en a à droite
+            sequence += '*'; R++; score *= 2;                           // on ramasse l'item le plus proche à droite, qui est forcément un multiplicateur
+            mR++;                                                       // le multiplicateur le plus proche à droite est alors le suivante (si il existe)
         }
         
-        if((cR == NC)&&(cL >= 0)) {                                             // Si il n'y a plus de pièces à ramasser à droite mais qu'il y en a à gauche
-            sequence += '*'; R++; score *= 2;                                   // on ramasse l'item le plus proche à gauche, qui est forcément un multiplicateur
-            mL--;                                                               // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
+        if((cR == NC)&&(cL >= 0)) {                                     // Si il n'y a plus de pièces à ramasser à droite mais qu'il y en a à gauche
+            sequence += '*'; R++; score *= 2;                           // on ramasse l'item le plus proche à gauche, qui est forcément un multiplicateur
+            mL--;                                                       // le multiplicateur le plus proche à gauche est alors le précédent (si il existe)
         }
         
-        if((cL == -1)&&(cR == NC)) {                                            // Si il n'y a plus de pièces à ramasser
-            int remaining = (mL+1) + (NM-mR);                                   // Le nombre de multiplicateurs restants
-            for(int s=0; s<remaining; s++) {sequence += '*';} R += remaining;   // on termine en les ramassant
+        if((cL == -1)&&(cR == NC)) {                                    // Si il n'y a plus de pièces à ramasser
+            int remaining = (mL+1) + (NM-mR);                           // Le nombre de multiplicateurs restants
+            for(int s=0; s<remaining; s++) {sequence += '*';}           // On termine en les ramassant
+             R += remaining;                                            // On a ramassé remaining items
         }
     }
     
