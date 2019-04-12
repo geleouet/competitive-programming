@@ -17,13 +17,13 @@ ContestExerciseImpl::ContestExerciseImpl() : Exercise() {}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// FONCTION COMPTER : PERMET DE COMPTER LE NOMBRE D'OBJET IDENTIQUES COTE A COTE A DROITE ET A GAUCHE
+// FONCTION COMPTER : PERMET DE COMPTER LE NOMBRE D'OBJET IDENTIQUES CONSECUTIFS A DROITE ET A GAUCHE
 int compter(int L, int R, vector<int> Obj) 
 {
     int nb_L = 1; int nb_R = 1;                                 // Les outputs
     int S = Obj.size();                                         // Le nombre d'éléments dans le vecteur
     
-    // Cas particuliers
+                                                                // Cas particuliers
     if(L==-1) {nb_L = 0;}                                       // Si on regarde à partir de l'extrémité gauche, il n'y a pas d'objets à gauche
     if(R==S) {nb_R = 0;}                                        // Si on regarde à partir de l'extrémité droite, il n'y a pas d'objets à droite
     
@@ -39,7 +39,6 @@ int compter(int L, int R, vector<int> Obj)
         ind_R++;                                                // Et on va regarder si le prochain objet à droite est du même type
         
     }
-    
     return nb_L, nb_R;
 }
 
