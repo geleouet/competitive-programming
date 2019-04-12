@@ -112,6 +112,8 @@ void ContestExerciseImpl::main()
         }
     }
     
+    //..........................................................................................................................................................
+    
     // RECHERCHE DU PLUS LONG MOT QUI APPARAIT DANS TOUS LES VECTEURS DE string
     int m=1022;                                             // On commence en regardant le mot le plus long dans le premier vecteur
     string mot;                                             // Le mot que l'on recherche, le plus long
