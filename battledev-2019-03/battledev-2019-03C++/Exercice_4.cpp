@@ -128,8 +128,8 @@ void ContestExerciseImpl::main()
             }
             if(owned != n+1) {                              // Si le mot n'apparaît pas dans le vecteur n°n
                 m--;
-                if(m >= 0) {owned = 1;}              // Si ce n'était pas le dernier mot, on passe à un autre mot dans le premmier vecteur
-                else {mot = "KO";}                          // Si c'était le dernier mot, le résultat est le mot vide
+                if(m >= 0) {owned = 1;}                     // Si ce n'était pas le dernier mot, on passe à un autre mot dans le premmier vecteur
+                else {mot = "KO";}                          // Si c'était le dernier mot, on affiche KO
                 break;
             }
         }
