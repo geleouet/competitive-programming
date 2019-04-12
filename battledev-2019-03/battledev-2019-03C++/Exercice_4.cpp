@@ -105,7 +105,7 @@ void ContestExerciseImpl::main()
             int sk = bin(k,10);                                         // Il y a sk mots de taille k
             for(int i=0; i<sk; i++) {                                   // Pour chaque combinaison de taille k
                 for(int j=0; j<k; j++) {                                // Pour chaque entier de cette combinaison
-                    Var[n][nb_comb+i] += mot_n[Comb[nb_comb+i][j]];      // On récupère la lettre correspondante et on l'ajoute au string 
+                    Var[n][nb_comb+i] += mot_n[Comb[nb_comb+i][j]];     // On récupère la lettre correspondante et on l'ajoute au string 
                 }
             } 
             nb_comb += sk;                                              // On a ajouté sk combinaisons
