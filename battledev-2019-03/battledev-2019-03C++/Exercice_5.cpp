@@ -29,12 +29,12 @@ int compter(int L, int R, vector<int> Obj)
     
     int ind_L = L; int ind_R = R;                               // On commence à compter à gauche à partir de l'objet d'indice L, et à droite à partir de l'objet d'indice R
     
-    while((ind_L >= 1)&&(Obj[ind_L-1] == Obj[ind_L]-1)) {       // Tant qu'il y a deux objets identiques consécutids à gauche
+    while((ind_L >= 1)&&(Obj[ind_L-1] == Obj[ind_L]-1)) {       // Tant qu'il y a deux objets identiques consécutifs à gauche
         nb_L++;                                                 // On ajoute 1 au compte
         ind_L--;                                                // Et on va regarder si le prochain objet à gauche est du même type
         
     }       
-    while((ind_R <= S-2)&&(Obj[ind_R+1] == Obj[ind_R]+1)) {     // Tant qu'il y a deux objets identiques consécutids à droite
+    while((ind_R <= S-2)&&(Obj[ind_R+1] == Obj[ind_R]+1)) {     // Tant qu'il y a deux objets identiques consécutifs à droite
         nb_R++;                                                 // On ajoute 1 au compte
         ind_R++;                                                // Et on va regarder si le prochain objet à droite est du même type
         
@@ -101,8 +101,6 @@ void ContestExerciseImpl::main()
         // Tant que pièces et multiplicateurs existent à droite et à gauche, les multiplicateurs étant plus proches
         while((cL >= 0)&&(mL >= 0)&&(Coin[cL] < Mult[mL])&&(cR < NC)&&(mR < NM)&&(Coin[cR] > Mult[mR])) 
         { 
-            sequence += '*'; R++;                                               // Dans tous les cas on ramasse un multiplicateur
-            
             // Ramasse-t-on à droite ou à gauche?
             int left_mult = 0; int right_mult = 0;                              // Nombre de multiplicateurs à droite et à gauche
             int left_coin = 0; int right_coin = 0;                              // Nombre de pièces à droite et à gauche
@@ -114,7 +112,7 @@ void ContestExerciseImpl::main()
             { 
                 // On utilise la fonction "compter" définie plus haut
                 left_mult, right_mult = compter(indM_left, indM_right, Mult); 
-                left_coin, right_coin = compter(indM_left, indM_right, Coin); 
+                left_coin, right_coin = compter(indC_left, indC_right, Coin); 
                 indM_left -= left_mult; indM_right += right_mult;               // Si on a besoin de recompter des multipplicateurs dans une nouvelle itération, on s'intéressera à ceux plus aux bords
                 indC_left -= left_coin; indC_right += right_coin;               // Si on a besoin de recompter des pièces dans une nouvelle itération, on s'intéressera à celles plus aux bords
                 res_left = (score * pow(2, left_mult) + left_coin) * pow(2, right_mult); 
@@ -124,7 +122,7 @@ void ContestExerciseImpl::main()
             if(res_left >= res_right) {mL--;}                                   // Si il est préférable d'aller à gauche, on ramasse à gauche
             else {mR++;}                                                        // Sinon à droite
             
-            score *= 2;                                                         // Le score est alors multiplié par 2
+            sequence += '*'; R++; score *= 2;                                   // Dans tous les cas on ramasse un multiplicateur 
         }
         
         // CAS SIMPLES (FIN DU RAMASSAGE) ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -142,20 +140,9 @@ void ContestExerciseImpl::main()
         if((cL == -1)&&(cR == NC)) {                                    // Si il n'y a plus de pièces à ramasser
             int remaining = (mL+1) + (NM-mR);                           // Le nombre de multiplicateurs restants
             for(int s=0; s<remaining; s++) {sequence += '*';}           // On termine en les ramassant
-             R += remaining;                                            // On a ramassé "remaining" items
+            R += remaining;                                             // On a ramassé "remaining" items
         }
     }
     
     cout << sequence;
 }
-
-
-
-
-
-
-
-
-
-
-   
