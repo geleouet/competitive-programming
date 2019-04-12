@@ -119,7 +119,7 @@ void ContestExerciseImpl::main()
     string mot;                                             // Le mot que l'on recherche, le plus long
     int owned = 1;                                          // Le nombre de vecteurs dans lequels le mot n°m du premier vecteur apparaît
     
-    while(owned != N)                                       // Tant que le mot étudié n'apparaît pas dans tous les vecteurs
+    while((owned != N)&&(m>=0))                             // Tant que le mot étudié n'apparaît pas dans tous les vecteurs, et qu'il rest des mots à étudier
     {
         mot = Var[0][m];                                    // On enregistre le mot n°m du premier vecteur
         for(int n=1; n<N; n++) {                            // Pour chaque vecteur autre que le premier vecteur
