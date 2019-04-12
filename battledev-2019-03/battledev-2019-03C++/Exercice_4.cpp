@@ -44,7 +44,7 @@ vector<vector<int> > generer(int min, int max, int k)
     if(k==1) {                                                                  // Si k vaut 1
         for(int i=min; i<=max; i++) {                                           // chaque sous_vecteur
             comb[i-min] = vector<int>(1);                                       // est de taille 1
-            comb[i-min][0] = i;                                                    // et contient un entier entre min et max
+            comb[i-min][0] = i;                                                 // et contient un entier entre min et max
         } 
     } 
     else { 
