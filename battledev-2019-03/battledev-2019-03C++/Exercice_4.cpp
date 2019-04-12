@@ -130,7 +130,7 @@ void ContestExerciseImpl::main()
                 m--;
                 if(m >= 0) {owned = 1;}                     // Si ce n'était pas le dernier mot, on passe à un autre mot dans le premmier vecteur
                 else {mot = "KO";}                          // Si c'était le dernier mot, on affiche KO
-                break;
+                break;                                      // On a plus besoin de chercher s'il apparaît dans d'autres vecteurs
             }
         }
     }
