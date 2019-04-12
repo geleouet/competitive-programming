@@ -130,6 +130,7 @@ void ContestExerciseImpl::main()
             if(owned != n+1) {                              // Si le mot n'apparaît pas dans le vecteur n°n
                 m--;                                        // On passe à un autre mot, plus court, dans le premier vecteur
                 owned = 1;                                  // Et owned reprend la valeur 1
+                break;                                      // On quitte la boucle pour passer à un autre mot
             }
         }
     }
