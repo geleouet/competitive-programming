@@ -108,7 +108,7 @@ void ContestExerciseImpl::main()
             int left_coin = 0; int right_coin = 0;                              // Nombre de pièces à droite et à gauche
             int indM_left = mL; int indM_right = mR;                            // Pour compter les multiplicateurs
             int indC_left = cL; int indC_right = cR;                            // Pour compter les pièces
-            int res_left; int res_right;
+            int res_left; int res_right;                                        // Résultats si on ramasse à gauche et si on ramasse à droite
             
             while((left_mult == right_mult)&&(left_coin == right_coin))         // Tant que le nombre d'items identiques consécutifs comptés à droite et à gauche est le même
             { 
