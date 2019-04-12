@@ -123,9 +123,8 @@ void ContestExerciseImpl::main()
     {
         mot = Var[0][m];                                    // On enregistre le mot n°m du premier vecteur
         for(int n=1; n<N; n++) {                            // Pour chaque vecteur autre que le premier vecteur
-            for(int i=1022; i>=0; i--) {                    // On va regarder les mots que le vecteur n°n possède dans l'ordre inverse
-                string mot2 = Var[n][i];                    // On enregistre son mot n°i
-                if(mot == mot2) {owned++; break;}           // S'il est égal au mot qu'on étudie, on le note et on peut passer au vecteur suivant
+            for(int i=1022; i>=0; i--) {                    // On va regarder les mots que le vecteur n°n possède, dans l'ordre inverse
+                if(mot == Var[n][i]) {owned++; break;}      // S'il le mot i est égal au mot qu'on étudie, on le note et on peut passer au vecteur suivant
             }
             if(owned != n+1) {                              // Si le mot n'apparaît pas dans le vecteur n°n
                 m--;                                        // On passe à un autre mot, plus court, dans le premier vecteur
