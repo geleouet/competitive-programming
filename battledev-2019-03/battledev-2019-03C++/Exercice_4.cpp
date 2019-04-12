@@ -127,13 +127,13 @@ void ContestExerciseImpl::main()
                 if(mot == Var[n][i]) {owned++; break;}      // S'il le mot i est égal au mot qu'on étudie, on le note et on peut passer au vecteur suivant
             }
             if(owned != n+1) {                              // Si le mot n'apparaît pas dans le vecteur n°n
-                m--;                                        // On passe à un autre mot, plus court, dans le premier vecteur
-                owned = 1;                                  // Et owned reprend la valeur 1
-                break;                                      // On quitte la boucle pour passer à un autre mot
+                m--;
+                if(m >= 0) {owned = 1;}              // Si ce n'était pas le dernier mot, on passe à un autre mot dans le premmier vecteur
+                // {mot = "";}                          // Si c'était le dernier mot, le résultat est le mot vide
+                break;
             }
         }
     }
     
     cout << mot;
 }
-
