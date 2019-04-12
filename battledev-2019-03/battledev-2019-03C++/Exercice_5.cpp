@@ -101,7 +101,7 @@ void ContestExerciseImpl::main()
         // Tant que pièces et multiplicateurs existent à droite et à gauche, les multiplicateurs étant plus proches
         while((cL >= 0)&&(mL >= 0)&&(Coin[cL] < Mult[mL])&&(cR < NC)&&(mR < NM)&&(Coin[cR] > Mult[mR])) 
         { 
-            sequence += '*'; R++; score *= 2;                                   // Dans tous les cas on ramasse un multiplicateur
+            sequence += '*'; R++;                                               // Dans tous les cas on ramasse un multiplicateur
             
             // Ramasse-t-on à droite ou à gauche?
             int left_mult = 0; int right_mult = 0;                              // Nombre de multiplicateurs à droite et à gauche
@@ -121,8 +121,10 @@ void ContestExerciseImpl::main()
                 res_right = (score  * pow(2, right_mult) + right_coin) * pow(2, left_mult); 
             }
             
-            if(res_left >= res_right) {mL--;}
-            else {mR++;}
+            if(res_left >= res_right) {mL--;}                                   // Si il est préférable d'aller à gauche, on ramasse à gauche
+            else {mR++;}                                                        // Sinon à droite
+            
+            score *= 2;                                                         // Le score est alors multiplié par 2
         }
         
         // CAS SIMPLES (FIN DU RAMASSAGE) ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -140,7 +142,7 @@ void ContestExerciseImpl::main()
         if((cL == -1)&&(cR == NC)) {                                    // Si il n'y a plus de pièces à ramasser
             int remaining = (mL+1) + (NM-mR);                           // Le nombre de multiplicateurs restants
             for(int s=0; s<remaining; s++) {sequence += '*';}           // On termine en les ramassant
-             R += remaining;                                            // On a ramassé remaining items
+             R += remaining;                                            // On a ramassé "remaining" items
         }
     }
     
